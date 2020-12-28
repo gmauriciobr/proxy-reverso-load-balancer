@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      dockerfile: ./docker/nginx.dockerfile
+      context: .
+    image: gmauricio/nginx  
+    container_name: nginx
+    ports:
+      - "8080:80"
+    networks: 
+      - gmauricio-network  
+
+  api01:
+    build:
+      dockerfile: ./docker/api.dockerfile
+      context: .
+    image: gmauricio/api01
+    container_name: api01
+    ports:
+      - "11080"
+    networks: 
+      - gmauricio-network
+    environment: 
+      port: 11080
+      apiName: api01
+
+  api02:
+    build:
+      dockerfile: ./docker/api.dockerfile
+      context: .
+    image: gmauricio/api02
+    container_name: api02
+    ports:
+      - "12080"
+    networks: 
+      - gmauricio-network
+    environment: 
+      port: 12080
+      apiName: api02
+    
+networks:
+  gmauricio-network:
+    driver: bridge
